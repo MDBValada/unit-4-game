@@ -33,7 +33,7 @@ $(document).ready(function(){
         //execute the random numbers function first!
         newGameRandomizer();
         //make sure the playerscore is reset to 0 for a new game (this basically does nothing on game one)
-        currentscore = 0;
+        currentScore = 0;
         //now reinitialize the playerscore HTML to 0 (again, this basically does nothing on game one)
         $("#totalScore").text(currentScore);
         //now initialize the randomized goalNumber into the playerGoal id tagged HTML element so they know what they are aiming for.
@@ -53,6 +53,29 @@ $(document).ready(function(){
 
     //might as well start the game now.
     newGamePlus();
+    //game functions even if noone can interact with it yet, GOOD!
+
+    //time to make the buttons function!
+    $(".gemImage").on("click", function() {
+
+		var crystalValueNow = $(this).attr("crystalValue");
+		crystalValueNow = parseInt(crystalValueNow);
+		currentScore += crystalValueNow;
+		$("#totalScore").text(currentScore);
+
+		if (currentScore === goalNumber) {
+            victoryCount++;
+            alert("You Win!");
+            $("#win").text("Wins: " + victoryCount);
+            newGamePlus();
+            
+		} else if (currentScore > goalNumber) {
+            defeatCount++;
+            alert("You Lose!");
+            $("#lose").text("Losses: " + defeatCount);
+            newGamePlus();
+		}
+	});
 
 
 
