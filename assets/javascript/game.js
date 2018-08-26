@@ -22,7 +22,7 @@ $(document).ready(function(){
     function newGameRandomizer() {
         //Math.floor(Math.random() * (max - min + 1)) + min; This is generally agreed to be a safe formula for getting an integer between a state min and max values in javascript.
         goalNumber = Math.floor(Math.random()*(120 - 19 + 1)) + 19; //a little confusing, but in the end the numbers are ()*101)+19, which IS correctly 19-120, it just LOOKS weird.
-        crystalOne = Math.floor(Math.random()*12)+1; //using the same thing to make sure i get 1-12
+        crystalOne = Math.floor(Math.random()*12)+1; //using the same thing to make sure I get 1-12
         crystalTwo = Math.floor(Math.random()*12)+1; //ditto
         crystalThree = Math.floor(Math.random()*12)+1; //re:
         crystalFour= Math.floor(Math.random()*12)+1; //etc, etc...
@@ -44,44 +44,51 @@ $(document).ready(function(){
 		$("#gemThree").attr("crystalValue", crystalThree);
         $("#gemFour").attr("crystalValue", crystalFour);
         //for cheaters and safety in testing, log all four of the current crystal values to console
-        console.log(crystalOne); //should comment out on a live game, but why the fuck are they undefined??????
-        console.log(crystalTwo);
-        console.log(crystalThree);
-        console.log(crystalFour);
+        //console.log(crystalOne); //should comment out on a live game, but why the fuck are they undefined??????
+        //console.log(crystalTwo);
+        //console.log(crystalThree);
+        //console.log(crystalFour);
     }//this is the end of the newGame function: don't lose it!
     //gem images have values but aren't actually buttons to click at this point. game also hasn't actually been started so nothing at ALL has actually happened beyond initialization.
 
     //might as well start the game now.
     newGamePlus();
-    //game functions even if noone can interact with it yet, GOOD!
+    //game functions properly even if no one can interact with it yet, GOOD!
 
     //time to make the buttons function!
     $(".gemImage").on("click", function() {
-
-		var crystalValueNow = $(this).attr("crystalValue");
+        //creating a short-lived variable to place the attribute "crystalvalue", which all four gem pictures have into.
+        var crystalValueNow = $(this).attr("crystalValue");
+        //making sure that value is an integer and not a string and returning it to the same variable.
 		crystalValueNow = parseInt(crystalValueNow);
-		currentScore += crystalValueNow;
+        //adding the integer value of crystalValueNow into the player's current score
+        currentScore += crystalValueNow;
+        //updating the html to show the player their current score.
 		$("#totalScore").text(currentScore);
 
+        //Win condition check after adding the value to the current score
 		if (currentScore === goalNumber) {
+            //increment win counter variable
             victoryCount++;
-            alert("You Win!");
+            //tell the player they've won
+            alert("Congratulations! You've Won!");
+            //update the wins in the HTML for the player to see
             $("#win").text("Wins: " + victoryCount);
+            //restart the game as soon as the alert has cleared
             newGamePlus();
-            
-		} else if (currentScore > goalNumber) {
+        
+        // Loss condition check if the win condition failed
+        } else if (currentScore > goalNumber) {
+            //increment loss counter variable
             defeatCount++;
-            alert("You Lose!");
+            //tell the player they lost with an alert
+            alert("Too bad. You've Lost.");
+            //update the HTML so the player can see the current number of games lost
             $("#lose").text("Losses: " + defeatCount);
+            //restart the game
             newGamePlus();
-		}
-	});
+        } //no "else" condition needed if both win and loss conditions do not trigger, game simply does nothing until next gem click.
 
-
-
-
-
-
-
+    });//This closes out the onclick function and basically ALL of the player functionality in the game, do NOT lose it!
 
 });//this is the final closing brackets for the master function, NOTHING should be outside of it!
